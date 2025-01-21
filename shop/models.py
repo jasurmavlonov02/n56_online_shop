@@ -39,6 +39,7 @@ class Product(BaseModel):
     image = models.ImageField(upload_to='media/products/')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='products', null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1, null=True, blank=True)
+    rating = models.PositiveIntegerField(choices=RatingChoice.choices, default=RatingChoice.ONE.value)
 
     @property
     def get_absolute_url(self):
