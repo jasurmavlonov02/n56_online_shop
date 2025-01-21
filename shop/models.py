@@ -1,4 +1,5 @@
 from django.db import models
+from decimal import Decimal
 
 
 # Create your models here.
@@ -38,6 +39,16 @@ class Product(BaseModel):
     image = models.ImageField(upload_to='media/products/')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='products', null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1, null=True, blank=True)
+
+    @property
+    def get_absolute_url(self):
+        return self.image.url
+
+    @property
+    def discounted_price(self):
+        if self.discount > 0:
+            self.price = Decimal(self.price) * Decimal((1 - self.discount / 100))
+        return Decimal(self.price).quantize(Decimal('0.001'))
 
     def __str__(self):
         return self.name
