@@ -24,7 +24,8 @@
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'products' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'products' %}">Home</a>
+                </li>
                 <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
@@ -70,26 +71,40 @@
                 </div>
                 <p class="lead">{{ product.description }}</p>
                 <div class="d-flex">
-                    <form>
+                    <form method="get" action="{% url 'order_detail' product.id %}">
                         <div class="form-group">
                             <h2>Place an order</h2>
                         </div>
                         <div class="form-group mb-3">
                             <label for="formGroupExampleInput">Your name</label>
-                            <input type="text" class="form-control" placeholder="Your name">
+                            <input type="text" name="full_name" class="form-control" placeholder="Your name">
                         </div>
                         <div class="form-group mb-3">
                             <label for="formGroupExampleInput2">Your phone</label>
-                            <input type="text" class="form-control" placeholder="Your phone">
+                            <input type="text" name="phone_number" class="form-control" placeholder="Your phone">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="formGroupExampleInput">Quantity</label>
+                            <input type="number" name="quantity" class="form-control" placeholder="Quantity">
                         </div>
 
 
                         <div class="form-group mb-3">
 
-                            <input type="text" class="btn btn-success" value="Send">
+                            <input type="submit" class="btn btn-success" value="Send">
                         </div>
                     </form>
 
+                </div>
+                <div>
+                    {% for message in messages %}
+                        {% if 'error' in message.tags %}
+                            <li style="color: red">{{ message }}</li>
+                        {% elif 'success' in message.tags %}
+                            <li style="color: green">{{ message }}</li>
+                        {% endif %}
+
+                    {% endfor %}
                 </div>
             </div>
         </div>
