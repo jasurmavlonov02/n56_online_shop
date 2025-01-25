@@ -1,9 +1,9 @@
 from typing import Optional
 from django.contrib import messages
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from shop.models import Product, Category, Order
-from shop.forms import OrderForm
+from shop.forms import OrderForm, ProductModelForm
 
 
 # Create your views here.
@@ -71,3 +71,27 @@ def order_detail(request, pk):
     }
 
     return render(request, 'shop/detail.html', context)
+
+
+def product_create(request):
+    # form = ProductModelForm()
+    if request.method == 'POST':
+        form = ProductModelForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('products')
+    else:
+        form = ProductModelForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'shop/create.html', context=context)
+
+
+def product_delete(request, pk):
+    try:
+        product = Product.objects.get(id=pk)
+        product.delete()
+        return redirect('products')
+    except Product.DoesNotExist as e:
+        print(e)
