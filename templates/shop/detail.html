@@ -58,12 +58,21 @@
             <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
                                        src="{{ product.get_absolute_url }}" alt="..."/></div>
             <div class="col-md-6">
-                <div>
-                    <form method="POST" action="{% url 'product_delete' product.id %}">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                        {% csrf_token %}
-                    </form>
-                </div>
+                {% if user.is_authenticated %}
+                    <div style="display: flex; gap:10px;">
+                        <form method="POST" action="{% url 'product_delete' product.id %}">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                            {% csrf_token %}
+                        </form>
+
+
+                        <button type="submit" class="btn btn-outline-primary">
+                            <a href="{% url 'product_edit' product.id %}">Edit</a>
+                        </button>
+
+                    </div>
+
+                {% endif %}
                 <div class="small mb-1"><h3>Stock : {{ product.quantity }}</h3></div>
                 <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
                 <div class="fs-5 mb-5">
