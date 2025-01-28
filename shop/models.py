@@ -68,3 +68,20 @@ class Order(BaseModel):
 
     def __str__(self):
         return f'{self.full_name} => {self.phone_number}'
+
+
+class Comment(BaseModel):
+    full_name = models.CharField(max_length=255, null=True, blank=True)
+    email = models.EmailField()
+    content = models.TextField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,
+                                related_name='comments',
+                                null=True, blank=True)
+    is_negative = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.full_name} => {self.created_at}'
+
+    class Meta:
+        # verbose_name = 'comment'
+        ordering = ['-created_at']

@@ -1,7 +1,7 @@
 from django import forms
 from phonenumber_field.modelfields import PhoneNumberField
 
-from shop.models import Product
+from shop.models import Product, Comment
 
 
 class OrderForm(forms.Form):
@@ -16,3 +16,9 @@ class ProductModelForm(forms.ModelForm):
         fields = '__all__'
 
         # exclude = ()
+
+
+class CommentModelForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['full_name','email','content']

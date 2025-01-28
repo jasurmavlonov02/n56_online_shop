@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from shop.models import Product, Category, Order
+from shop.models import Product, Category, Order, Comment
 
 # Register your models here.
 
@@ -8,3 +8,4 @@ from shop.models import Product, Category, Order
 admin.site.register(Product)
 admin.site.register(Category)
 admin.site.register(Order)
+admin.site.register(Comment)

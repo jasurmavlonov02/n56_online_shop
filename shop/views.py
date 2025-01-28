@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
-from shop.models import Product, Category, Order
-from shop.forms import OrderForm, ProductModelForm
+from shop.models import Product, Category, Order, Comment
+from shop.forms import OrderForm, ProductModelForm, CommentModelForm
 
 
 # Create your views here.
@@ -16,7 +16,7 @@ def index(request, category_id: Optional[int] = None):
     if category_id:
         products = Product.objects.filter(category_id=category_id)
     else:
-        products = Product.objects.all()
+        products = Product.objects.all()  # .order_by('-id')
 
     context = {
         'products': products,
@@ -27,8 +27,9 @@ def index(request, category_id: Optional[int] = None):
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
+    comments = Comment.objects.filter(product=product, is_negative=False)
 
-    return render(request, 'shop/detail.html', {'product': product})
+    return render(request, 'shop/detail.html', {'product': product, 'comments': comments})
 
 
 def order_detail(request, pk):
@@ -114,3 +115,21 @@ def product_edit(request, pk):
         'action': 'Edit'
     }
     return render(request, 'shop/create.html', context=context)
+
+
+def comment_view(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    form = CommentModelForm()
+    if request.method == 'POST':
+        form = CommentModelForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.product = product
+            comment.save()
+            return redirect('product_detail', pk)
+    context = {
+        'product': product,
+        'form': form
+    }
+    return render(request, 'shop/detail.html', context=context)
