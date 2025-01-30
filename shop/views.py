@@ -11,12 +11,36 @@ from shop.forms import OrderForm, ProductModelForm, CommentModelForm
 
 
 def index(request, category_id: Optional[int] = None):
+    search_query = request.GET.get('q', '')
+    filter_type = request.GET.get('filter', '')
     categories = Category.objects.all()
 
     if category_id:
-        products = Product.objects.filter(category_id=category_id)
+        if filter_type == 'expensive':
+            products = Product.objects.filter(category_id=category_id).order_by('-price')[:5]
+        elif filter_type == 'cheap':
+            products = Product.objects.filter(category_id=category_id).order_by('price')[:5]
+        elif filter_type == 'rating':
+            products = Product.objects.filter(category_id=category_id, rating__gte=4).order_by('-rating')
+
+        else:
+            products = Product.objects.filter(category_id=category_id)
+
     else:
-        products = Product.objects.all()  # .order_by('-id')
+        if filter_type == 'expensive':
+            products = Product.objects.all().order_by('-price')[:5]
+        elif filter_type == 'cheap':
+            products = Product.objects.all().order_by('price')[:5]
+        elif filter_type == 'rating':
+            products = Product.objects.filter(rating__gte=4).order_by('-rating')
+
+        else:
+            products = Product.objects.all()
+
+    if search_query:
+        products = Product.objects.filter(name__icontains=search_query)
+
+    # .order_by('-id')
 
     context = {
         'products': products,
@@ -28,8 +52,14 @@ def index(request, category_id: Optional[int] = None):
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
     comments = Comment.objects.filter(product=product, is_negative=False)
+    related_products = Product.objects.filter(category_id=product.category).exclude(id=product.id)
 
-    return render(request, 'shop/detail.html', {'product': product, 'comments': comments})
+    context = {
+        'product': product,
+        'comments': comments,
+        'related_products': related_products
+    }
+    return render(request, 'shop/detail.html', context=context)
 
 
 def order_detail(request, pk):
@@ -128,6 +158,7 @@ def comment_view(request, pk):
             comment.product = product
             comment.save()
             return redirect('product_detail', pk)
+
     context = {
         'product': product,
         'form': form

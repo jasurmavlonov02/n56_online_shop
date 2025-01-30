@@ -47,7 +47,7 @@
                 </li>
             </ul>
             <form class="d-flex">
-                <input type="text" class="form-contro">
+                <input type="text" name="q" class="form-contro">
                 <button class="btn btn-outline-dark" type="submit">
                     <i class="bi-search-fill me-1"></i>
                     Search
@@ -74,15 +74,15 @@
     </div>
     <div class="row">
         <div class="col-1">
-            <a class="btn btn-outline-dark mt-auto" href="#"> Expensive </a>
+            <a class="btn btn-outline-dark mt-auto" href="?filter=expensive"> Expensive </a>
         </div>
 
         <div class="col-1">
-            <a class="btn btn-outline-dark mt-auto" href="#"> Cheap </a>
+            <a class="btn btn-outline-dark mt-auto" href="?filter=cheap"> Cheap </a>
         </div>
 
         <div class="col-1">
-            <a class="btn btn-outline-dark mt-auto" href="#"> Likes </a>
+            <a class="btn btn-outline-dark mt-auto" href="?filter=rating"> Rating </a>
         </div>
         {% if user.is_authenticated %}
             <div class="col-1">
