@@ -21,5 +21,6 @@ from config import settings
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
-                  path('apelsin/', include('shop.urls'))
+                  path('apelsin/', include('shop.urls'), name='shop'),
+                  path('user/', include('user.urls'), name='user'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

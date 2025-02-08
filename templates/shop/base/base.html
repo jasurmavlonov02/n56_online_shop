@@ -19,27 +19,27 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="{% url 'products' %}">Apelsin</a>
+        <a class="navbar-brand" href="{% url 'shop:products' %}">Apelsin</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'products' %}">Home</a>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'shop:products' %}">Home</a>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'products' %}">All Products</a></li>
+                        <li><a class="dropdown-item" href="{% url 'shop:products' %}">All Products</a></li>
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
                         {% for category in categories %}
                             <li>
                                 <a class="dropdown-item"
-                                   href="{% url 'products_of_category' category.id %}">{{ category.title }}</a>
+                                   href="{% url 'shop:products_of_category' category.id %}">{{ category.title }}</a>
                             </li>
                         {% endfor %}
 
@@ -54,6 +54,29 @@
 
                 </button>
             </form>
+
+
+            {% if user.is_authenticated %}
+                <div style="margin-left: 20px">
+                    <a href="{% url 'user:logout_page' %}">
+                        <button type="button" class="btn btn-primary">Logout</button>
+                    </a>
+                </div>
+                <div style="margin-left: 20px" >
+                    <h3>{{ user.email}}</h3>
+                </div>
+            {% else %}
+                <div style="margin-left: 20px">
+                    <a href="{% url 'user:login_page' %}">
+                        <button type="button" class="btn btn-primary">Login</button>
+                    </a>
+                </div>
+                <div style="margin-left: 20px">
+                    <a href="#">
+                        <button type="button" class="btn btn-primary">Register</button>
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </nav>

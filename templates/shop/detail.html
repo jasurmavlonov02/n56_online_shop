@@ -15,14 +15,14 @@
                 <div class="col-md-6">
                     {% if user.is_authenticated %}
                         <div style="display: flex; gap:10px;">
-                            <form method="POST" action="{% url 'product_delete' product.id %}">
+                            <form method="POST" action="{% url 'shop:product_delete' product.id %}">
                                 <button type="submit" class="btn btn-danger">Delete</button>
                                 {% csrf_token %}
                             </form>
 
 
                             <button type="submit" class="btn btn-outline-primary">
-                                <a href="{% url 'product_edit' product.id %}">Edit</a>
+                                <a href="{% url 'shop:product_edit' product.id %}">Edit</a>
                             </button>
 
                         </div>
@@ -41,7 +41,7 @@
                     </div>
                     <p class="lead">{{ product.description }}</p>
                     <div class="d-flex">
-                        <form method="get" action="{% url 'order_detail' product.id %}">
+                        <form method="get" action="{% url 'shop:order_detail' product.id %}">
                             <div class="form-group">
                                 <h2>Place an order</h2>
                             </div>
@@ -106,7 +106,7 @@
                         <h3>Add Comment</h3>
                     </div>
 
-                    <form method="post" action="{% url 'comment_view' product.id %}">
+                    <form method="post" action="{% url 'shop:comment_view' product.id %}">
                         {% csrf_token %}
                         <div class="form-group mb-3">
                             <label for="formGroupExampleInput">Your name</label>
@@ -156,7 +156,7 @@
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto"
-                                                            href="{% url 'product_detail' product.id %}">View
+                                                            href="{% url 'shop:product_detail' product.id %}">View
                                     product</a></div>
 
 
