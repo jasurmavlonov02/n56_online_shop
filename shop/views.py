@@ -1,6 +1,7 @@
 from typing import Optional
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 
 from shop.models import Product, Category, Order, Comment
@@ -40,10 +41,14 @@ def index(request, category_id: Optional[int] = None):
     if search_query:
         products = Product.objects.filter(name__icontains=search_query)
 
+    paginator = Paginator(products, 5)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     # .order_by('-id')
 
     context = {
-        'products': products,
+        'page_obj': page_obj,
         'categories': categories,
     }
     return render(request, 'shop/index.html', context=context)
