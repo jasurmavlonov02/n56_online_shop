@@ -3,9 +3,13 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views import View
 
 from shop.models import Product, Category, Order, Comment
 from shop.forms import OrderForm, ProductModelForm, CommentModelForm
+
+from django.views.generic import CreateView, DetailView
 
 
 # Create your views here.
@@ -169,3 +173,38 @@ def comment_view(request, pk):
         'form': form
     }
     return render(request, 'shop/detail.html', context=context)
+
+
+# class CreateProduct(View):
+#     def get(self, request):
+#         form = ProductModelForm()
+#         return render(request, 'shop/create.html', {'form': form, 'action': 'Create New'})
+#
+#     def post(self, request):
+#         form = ProductModelForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('shop:products')
+
+
+class CreateProduct(CreateView):
+    model = Product
+    template_name = 'shop/create.html'
+    form_class = ProductModelForm
+    success_url = reverse_lazy('shop:products')
+
+    # def get_success_url(self):
+    #     return reverse_lazy('shop:products')
+
+
+class DetailProduct(DetailView):
+    model = Product
+    template_name = 'shop/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = get_object_or_404(Product, pk=self.kwargs['pk'])
+        context['product'] = product
+        context['comments'] = Comment.objects.filter(product=product, is_negative=False)
+        context['related_products'] = Product.objects.filter(category_id=product.category).exclude(id=product.id)
+        return context
