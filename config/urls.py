@@ -23,4 +23,6 @@ urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('apelsin/', include('shop.urls'), name='shop'),
                   path('user/', include('user.urls'), name='user'),
+                  path('social-auth/',
+                       include('social_django.urls', namespace='social')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'adminsortable2',
     'import_export',
     'user.apps.UserConfig',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,13 @@ EMAIL_USE_TLS = True  # True for TLS, False for SSL
 EMAIL_HOST_USER = 'jm1495046@gmail.com'  # SMTP server username
 EMAIL_HOST_PASSWORD = 'hbeq pnug scyu kfyf'  # SMTP server password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2'
+]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '64344816682-km9fh81c30o18grc695keffsuetiolad.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+LOGIN_REDIRECT_URL = '/apelsin/'
