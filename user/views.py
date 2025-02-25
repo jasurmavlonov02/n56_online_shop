@@ -59,7 +59,7 @@ def register_page(request):
 
             user.set_password(user.password)
             user.is_active = False
-            # user.save()
+            user.save()
             current_site = get_current_site(request)
 
             subject = 'Verify email'

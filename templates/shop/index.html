@@ -1,5 +1,6 @@
 {% extends 'shop/base/base.html' %}
 {% load static %}
+{% load product_rating_tags %}
 
 {% block title %}
     Apelsin
@@ -64,12 +65,14 @@
                                     <h5 class="fw-bolder">{{ product.name }}</h5>
                                     <!-- Product reviews-->
                                     <div class="d-flex justify-content-center small text-warning mb-2">
-                                        {% with ''|center:product.rating as range %}
-                                            {% for f in range %}
-                                                <div class="bi-star-fill"></div>
-                                            {% endfor %}
-                                        {% endwith %}
-
+                                        {#                                        {% with ''|center:product.rating as range %}#}
+                                        {#                                            {% for f in range %}#}
+                                        {#                                                <div class="bi-star-fill"></div>#}
+                                        {#                                            {% endfor %}#}
+                                        {#                                        {% endwith %}#}
+                                        {% for _ in product.rating|get_range %}
+                                            <div class="bi-star-fill"></div>
+                                        {% endfor %}
                                     </div>
                                     <!-- Product price-->
                                     {% if product.discount > 0 %}
