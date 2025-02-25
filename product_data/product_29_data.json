@@ -1,0 +1,15 @@
+{
+   "29": {
+      "id": 29,
+      "name": "test",
+      "description": "test",
+      "image": "/media/media/products/changyutgich-1_Q4IShBp.jpg",
+      "price": 4444.0,
+      "discount": 0,
+      "quantity": 1,
+      "category": null,
+      "rating": 1,
+      "created_at": "2025-02-25 14:18:29.755094+00:00",
+      "updated_at": "2025-02-25 14:18:29.755107+00:00"
+   }
+}

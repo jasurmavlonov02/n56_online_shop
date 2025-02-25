@@ -15,21 +15,21 @@ from django.views.generic import CreateView, DetailView
 # Create your views here.
 
 
-def index(request, category_id: Optional[int] = None):
+def index(request, slug=None):
     search_query = request.GET.get('q', '')
     filter_type = request.GET.get('filter', '')
     categories = Category.objects.all()
 
-    if category_id:
+    if slug:
         if filter_type == 'expensive':
-            products = Product.objects.filter(category_id=category_id).order_by('-price')[:5]
+            products = Product.objects.filter(category__slug=slug).order_by('-price')[:5]
         elif filter_type == 'cheap':
-            products = Product.objects.filter(category_id=category_id).order_by('price')[:5]
+            products = Product.objects.filter(category__slug=slug).order_by('price')[:5]
         elif filter_type == 'rating':
-            products = Product.objects.filter(category_id=category_id, rating__gte=4).order_by('-rating')
+            products = Product.objects.filter(category__slug=slug, rating__gte=4).order_by('-rating')
 
         else:
-            products = Product.objects.filter(category_id=category_id)
+            products = Product.objects.filter(category__slug=slug)
 
     else:
         if filter_type == 'expensive':

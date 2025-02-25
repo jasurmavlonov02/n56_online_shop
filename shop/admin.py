@@ -37,6 +37,7 @@ class ProductInline(admin.TabularInline):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at', 'product_count')
     search_fields = ('title',)
+    prepopulated_fields = {'slug': ('title',)}
 
     inlines = [
         ProductInline,

@@ -39,7 +39,7 @@
                         {% for category in categories %}
                             <li>
                                 <a class="dropdown-item"
-                                   href="{% url 'shop:products_of_category' category.id %}">{{ category.title }}</a>
+                                   href="{% url 'shop:products_of_category' category.slug %}">{{ category.title }}</a>
                             </li>
                         {% endfor %}
 
